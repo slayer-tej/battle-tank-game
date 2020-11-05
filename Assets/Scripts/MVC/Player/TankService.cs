@@ -7,19 +7,10 @@ public class TankService : MonoSingletonGeneric<TankService>
 {
     public GameObject TankPrefab;
     public FixedJoystick joystick;
-    public TankScriptableObjectList EnemytankList;
-
-
 
     private void Start()
     {
         SpawnPlayerTank();
-        SpawnEnemyTank();
-    }
-
-    private void SpawnEnemyTank()
-    {
-        
     }
 
     private TankController SpawnPlayerTank()

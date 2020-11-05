@@ -1,8 +1,8 @@
 ﻿public enum TankType
 {
     None,
-    Red,
-    Green,
-    White
+    Heavy,
+    Medium,
+    Light
 }
 
