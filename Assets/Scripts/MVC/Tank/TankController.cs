@@ -6,11 +6,11 @@ using UnityEngine;
 public class TankController : MonoBehaviour
 {
     public FixedJoystick joystick;
-  //  private float horizontalMove;
-   // private float verticalMove;
 
     public float speed;
     public float rotate;
+    private int health = 100;
+    private int damage = 10;
 
 
     private void Update()

@@ -3,22 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankService : MonoSingletonGeneric <TankService>
+public class TankService : MonoSingletonGeneric<TankService>
 {
     public GameObject TankPrefab;
     public FixedJoystick joystick;
-    
+    public TankScriptableObjectList EnemytankList;
+
+
 
     private void Start()
     {
-        GetTank();
+        SpawnPlayerTank();
+        SpawnEnemyTank();
     }
 
-    private TankController GetTank()
+    private void SpawnEnemyTank()
     {
-        Instantiate(TankPrefab, Vector3.zero,Quaternion.identity);
-        TankController tankController = TankPrefab.GetComponent<TankController>();
+        
+    }
+
+    private TankController SpawnPlayerTank()
+    {
+        Instantiate(TankPrefab);
+        TankController tankController = gameObject.GetComponent<TankController>();
         tankController.joystick = joystick;
         return tankController;
     }
+
 }
