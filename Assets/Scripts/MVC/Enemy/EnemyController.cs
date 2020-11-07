@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     private int Health;
     private int Damage;
     private Color TankColor;
+    private  Renderer Renderer;
 
     public void SetEnemyCharacteristics(TankScriptableObject enemytank)
     {
@@ -17,13 +18,17 @@ public class EnemyController : MonoBehaviour
         Health = enemytank.health;
         Damage = enemytank.damage;
         TankColor = enemytank.TankColor;
-    }
+    }   
 
     private void Awake()
     {
-        
+        //Renderer = gameObject.GetComponent<Renderer>();
     }
 
+    private void Start()
+    {
+        //Renderer.GetComponent<Material>().color = TankColor;
+    }
 
 
 }

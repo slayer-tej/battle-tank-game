@@ -15,3 +15,4 @@ MonoBehaviour:
   EnemyTankList:
   - {fileID: 11400000, guid: fca6baa0990151d4eae1cc9b70c2dfeb, type: 2}
   - {fileID: 11400000, guid: de07621c5eade0b42b3f8bc247e41603, type: 2}
+  - {fileID: 11400000, guid: 5af6586b7d1cc6c48804264c3110eeb4, type: 2}

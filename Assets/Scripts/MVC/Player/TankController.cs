@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TankController : MonoBehaviour
-{
-    public FixedJoystick joystick;
-
-    public float speed;
-    public float rotate;
+{   
+    private FixedJoystick Joystick;
+    private float speed = 10;
+    private float rotate = 1000;
     private int health = 100;
     private int damage = 10;
 
-
-
+    private void Start()
+    {
+        Joystick = TankService.Instance.joystick.GetComponent<FixedJoystick>();
+    }
 
     private void Update()
     {
@@ -23,16 +24,18 @@ public class TankController : MonoBehaviour
 
     private void TankMovement()
     {
-        float vertical = joystick.Vertical;
+        float vertical = Joystick.Vertical;
+
         if (vertical > .3f || vertical < -.3f)
         {
             transform.position = transform.position + transform.forward * speed * vertical * Time.deltaTime;
         }
 
     }
+
     private void TankRotate()
     {
-        float horizontal = joystick.Horizontal;
+        float horizontal = Joystick.Horizontal;
         if(horizontal > .3f || horizontal < -.3f)
         transform.Rotate(Vector3.up * rotate * Time.deltaTime * horizontal);
     }

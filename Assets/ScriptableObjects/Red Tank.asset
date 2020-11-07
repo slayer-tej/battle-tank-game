@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39ece2535c31e444a8943bd76e0ab201, type: 3}
-  m_Name: Green Tank
+  m_Name: Red Tank
   m_EditorClassIdentifier: 
   TankType: 1
-  Speed: 30
-  Rotation: 1500
+  speed: 0
+  rotation: 0
   health: 100
   damage: 10
+  TankColor: {r: 1, g: 0.012645561, b: 0, a: 0}
