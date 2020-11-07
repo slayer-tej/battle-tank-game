@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Blue Tank
   m_EditorClassIdentifier: 
   TankType: 2
-  speed: 0
-  rotation: 0
+  speed: 15
+  rotation: 1000
   health: 80
   damage: 8
   TankColor: {r: 0, g: 0.06269789, b: 1, a: 0}

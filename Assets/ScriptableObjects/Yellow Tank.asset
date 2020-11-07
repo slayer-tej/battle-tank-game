@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Yellow Tank
   m_EditorClassIdentifier: 
   TankType: 3
-  speed: 0
-  rotation: 0
+  speed: 10
+  rotation: 700
   health: 70
   damage: 5
   TankColor: {r: 0.8018868, g: 0.7996555, b: 0.17777678, a: 0}

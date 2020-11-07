@@ -15,6 +15,7 @@ public class MonoSingletonGeneric <T>: MonoBehaviour where T : MonoSingletonGene
         }
         else
         {
+            Debug.Log("Someone Trying to create another instance");
             Destroy(this);
         }
     }

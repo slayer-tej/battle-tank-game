@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TankController : MonoBehaviour
 {   
@@ -10,6 +11,7 @@ public class TankController : MonoBehaviour
     private float rotate = 1000;
     private int health = 100;
     private int damage = 10;
+
 
     private void Start()
     {
