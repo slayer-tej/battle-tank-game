@@ -41,5 +41,13 @@ public class TankController : MonoBehaviour
         if(horizontal > .3f || horizontal < -.3f)
         transform.Rotate(Vector3.up * rotate * Time.deltaTime * horizontal);
     }
+    public int GetDamage
+    {
+        get { return damage;}
+    }
+    public int GetHealth
+    {
+        get { return health;}
+    }
 }
 

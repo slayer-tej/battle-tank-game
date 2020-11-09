@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class BulletService : MonoSingletonGeneric <BulletService>
 {
     public GameObject Shell;
+
     
     public void FireBullet(Transform FireTransform)
     {
@@ -14,5 +15,10 @@ public class BulletService : MonoSingletonGeneric <BulletService>
         GameObject bullet = Instantiate(Shell,FireTransform.position,FireTransform.rotation);
         bullet.AddComponent<BulletController>();
         bullet.AddComponent<Rigidbody>();
+        bullet.AddComponent<BoxCollider>();
+    }
+    public void DamageEnemyTank()
+    {
+        TankService.Instance.TakeDamage();
     }
 }

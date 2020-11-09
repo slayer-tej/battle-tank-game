@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class TankService : MonoSingletonGeneric<TankService>
 {
+    private EnemyController enemyController;
+    private TankController tankController;
+
     public GameObject PlayerTank;
     public GameObject EnemyTank;
     public FixedJoystick joystick;
@@ -13,11 +16,9 @@ public class TankService : MonoSingletonGeneric<TankService>
     public Transform FireTransform;
     public Button FireButton;
 
-
-
     private void Start()
     {
-       SpawnPlayerTank();
+       tankController = SpawnPlayerTank();
        Button button = FireButton.GetComponent<Button>();
        button.onClick.AddListener(FireBullets);
     }
@@ -26,9 +27,9 @@ public class TankService : MonoSingletonGeneric<TankService>
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            Debug.Log("Enemy Tank");
+            Debug.Log("Enemy Tank Spawned");
             int random = UnityEngine.Random.Range(0, tanks.EnemyTankList.Length);
-            SpawnEnemyTank(EnemyTank, random);
+            enemyController = SpawnEnemyTank(EnemyTank, random);
         }
     }
 
@@ -37,19 +38,29 @@ public class TankService : MonoSingletonGeneric<TankService>
         BulletService.Instance.FireBullet(FireTransform);
     }
 
-    public void SpawnPlayerTank()
+    public void TakeDamage()
+    {
+        enemyController.TakeDamage(tankController.GetDamage);
+    }
+
+    public TankController SpawnPlayerTank()
     {
         GameObject Tank = Instantiate(PlayerTank);
         FireTransform.transform.parent = Tank.transform;
         TankController tankController = Tank.AddComponent<TankController>();
-        //return tankController;
+        Tank.AddComponent<BoxCollider>();
+        Tank.AddComponent<Rigidbody>();
+        return tankController;
     }
 
-    public void SpawnEnemyTank(GameObject EnemyTankPrefab, int index)
+    public EnemyController SpawnEnemyTank(GameObject EnemyTankPrefab, int index)
     {
         Debug.Log("Enemy created");
         GameObject EnemyTank = Instantiate(EnemyTankPrefab, Vector3.zero, Quaternion.identity);
         EnemyTank.AddComponent<EnemyController>().SetEnemyCharacteristics(tanks.EnemyTankList[index]);
+        EnemyController enemyController = EnemyTank.GetComponent<EnemyController>();
+        EnemyTank.AddComponent<BoxCollider>();
+        return enemyController;
     }
 }
 
