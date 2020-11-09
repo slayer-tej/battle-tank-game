@@ -25,9 +25,11 @@ public class EnemyController : MonoBehaviour
         if (Health > 0)
         {
             Health -= Dmg;
+            Debug.Log("Health : " + Health);
         }
         else
         {
+            ParticleSystemsController.Instance.TankExplosion();
             Destroy(gameObject);
         }
     }

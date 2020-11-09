@@ -15,8 +15,12 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<BoxCollider>() || collision.gameObject.GetComponent<Rigidbody>() != null)
+        if (collision.gameObject.GetComponent<BoxCollider>() != null || collision.gameObject.GetComponent<Rigidbody>() != null)
         {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                ParticleSystemsController.Instance.WallCollision(contact.point);
+            }
             Destroy(gameObject);
         }
         if(collision.gameObject.GetComponent<EnemyController>() != null)

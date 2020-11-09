@@ -15,22 +15,15 @@ public class TankService : MonoSingletonGeneric<TankService>
     public TankScriptableObjectList tanks;
     public Transform FireTransform;
     public Button FireButton;
+    public Button SpawnEnemy;
 
     private void Start()
     {
-       tankController = SpawnPlayerTank();
-       Button button = FireButton.GetComponent<Button>();
-       button.onClick.AddListener(FireBullets);
-    }
-   
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            Debug.Log("Enemy Tank Spawned");
-            int random = UnityEngine.Random.Range(0, tanks.EnemyTankList.Length);
-            enemyController = SpawnEnemyTank(EnemyTank, random);
-        }
+        tankController = SpawnPlayerTank();
+        Button Firebutton = FireButton.GetComponent<Button>();
+        Firebutton.onClick.AddListener(FireBullets);
+        Button EnemySpawn = SpawnEnemy.GetComponent<Button>();
+        EnemySpawn.onClick.AddListener(GenerateRandomEnemySpawn);
     }
 
     private void FireBullets()
@@ -61,6 +54,13 @@ public class TankService : MonoSingletonGeneric<TankService>
         EnemyController enemyController = EnemyTank.GetComponent<EnemyController>();
         EnemyTank.AddComponent<BoxCollider>();
         return enemyController;
+    }
+
+    private void GenerateRandomEnemySpawn()
+    {
+        Debug.Log("Enemy Tank Spawned");
+        int random = UnityEngine.Random.Range(0, tanks.EnemyTankList.Length);
+        enemyController = SpawnEnemyTank(EnemyTank, random);
     }
 }
 

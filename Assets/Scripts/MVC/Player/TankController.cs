@@ -8,7 +8,7 @@ public class TankController : MonoBehaviour
 {   
     private FixedJoystick Joystick;
     private float speed = 10;
-    private float rotate = 1000;
+    private float rotate = 700;
     private int health = 100;
     private int damage = 10;
 
@@ -32,7 +32,6 @@ public class TankController : MonoBehaviour
         {
             transform.position = transform.position + transform.forward * speed * vertical * Time.deltaTime;
         }
-
     }
 
     private void TankRotate()
