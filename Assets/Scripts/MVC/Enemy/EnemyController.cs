@@ -11,6 +11,14 @@ public class EnemyController : MonoBehaviour
     private Color TankColor;
     private Renderer Renderer;
 
+    private void OnCollisionEnter(Collision collision)
+    {   if (collision.gameObject.GetComponent<TankController>() != null)
+        {
+            TankService.Instance.KillPlayerTank();
+        }
+        
+    }
+
     public void SetEnemyCharacteristics(TankScriptableObject enemytank)
     {
         Speed = enemytank.speed;
@@ -27,10 +35,12 @@ public class EnemyController : MonoBehaviour
             Health -= Dmg;
             Debug.Log("Health : " + Health);
         }
-        else
+
+        if (Health == 0)
         {
             ParticleSystemsController.Instance.TankExplosion();
-            Destroy(gameObject);
+            Destroy(gameObject,2f);
         }
     }
+
 }

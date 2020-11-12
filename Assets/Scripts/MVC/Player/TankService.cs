@@ -14,6 +14,8 @@ public class TankService : MonoSingletonGeneric<TankService>
     public FixedJoystick joystick;
     public TankScriptableObjectList tanks;
     public Transform FireTransform;
+    public BoxCollider BoxCollider;
+    public Camera MainCamera;
     public Button FireButton;
     public Button SpawnEnemy;
 
@@ -35,13 +37,18 @@ public class TankService : MonoSingletonGeneric<TankService>
     {
         enemyController.TakeDamage(tankController.GetDamage);
     }
+    public void KillPlayerTank()
+    {
+        tankController.DestroyPlayerTank();
+    }
 
     public TankController SpawnPlayerTank()
     {
         GameObject Tank = Instantiate(PlayerTank);
         FireTransform.transform.parent = Tank.transform;
+        BoxCollider.transform.parent = Tank.transform;
+        MainCamera.transform.parent = Tank.transform;
         TankController tankController = Tank.AddComponent<TankController>();
-        Tank.AddComponent<BoxCollider>();
         Tank.AddComponent<Rigidbody>();
         return tankController;
     }

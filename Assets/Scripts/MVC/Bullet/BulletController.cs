@@ -15,7 +15,7 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<BoxCollider>() != null || collision.gameObject.GetComponent<Rigidbody>() != null)
+        if (collision.gameObject.GetComponent<BoxCollider>() != null || collision.gameObject.GetComponent<MeshCollider>() != null)
         {
             foreach (ContactPoint contact in collision.contacts)
             {
@@ -24,7 +24,7 @@ public class BulletController : MonoBehaviour
             Destroy(gameObject);
         }
         if(collision.gameObject.GetComponent<EnemyController>() != null)
-        {
+        {      
             BulletService.Instance.DamageEnemyTank();
             Destroy(gameObject);
         }

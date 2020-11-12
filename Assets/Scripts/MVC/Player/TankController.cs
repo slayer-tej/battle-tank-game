@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class TankController : MonoBehaviour
 {   
     private FixedJoystick Joystick;
-    private float speed = 10;
-    private float rotate = 700;
+    private float speed = 15;
+    private float rotate = 200;
     private int health = 100;
     private int damage = 10;
 
@@ -27,19 +27,27 @@ public class TankController : MonoBehaviour
     private void TankMovement()
     {
         float vertical = Joystick.Vertical;
+        float horizontal = Joystick.Horizontal;
+
 
         if (vertical > .3f || vertical < -.3f)
         {
             transform.position = transform.position + transform.forward * speed * vertical * Time.deltaTime;
         }
     }
-
+     
     private void TankRotate()
     {
         float horizontal = Joystick.Horizontal;
         if(horizontal > .3f || horizontal < -.3f)
         transform.Rotate(Vector3.up * rotate * Time.deltaTime * horizontal);
     }
+
+    public void DestroyPlayerTank()
+    {
+        Destroy(gameObject);
+    }
+
     public int GetDamage
     {
         get { return damage;}
