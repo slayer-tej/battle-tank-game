@@ -17,8 +17,8 @@ public class BulletService : MonoSingletonGeneric <BulletService>
         bullet.AddComponent<Rigidbody>();
         bullet.AddComponent<BoxCollider>();
     }
-    public void DamageEnemyTank()
+    public void DamageEnemyTank(Vector3 point)
     {
-        TankService.Instance.TakeDamage();
+        TankService.Instance.DamageEnemy(point);
     }
 }

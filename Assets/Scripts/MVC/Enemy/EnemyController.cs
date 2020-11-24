@@ -10,13 +10,14 @@ public class EnemyController : MonoBehaviour
     private int Damage;
     private Color TankColor;
     private Renderer Renderer;
+    private Coroutine coroutine;
 
     private void OnCollisionEnter(Collision collision)
     {   if (collision.gameObject.GetComponent<TankController>() != null)
         {
-            TankService.Instance.KillPlayerTank();
+            foreach (ContactPoint contact in collision.contacts)
+                TankService.Instance.KillPlayerTank(contact.point);
         }
-        
     }
 
     public void SetEnemyCharacteristics(TankScriptableObject enemytank)
@@ -28,19 +29,27 @@ public class EnemyController : MonoBehaviour
         TankColor = enemytank.TankColor;
     }
 
-    public void TakeDamage(int Dmg)
+    public void TakeDamage(int Dmg, Vector3 point)
     {
         if (Health > 0)
         {
             Health -= Dmg;
             Debug.Log("Health : " + Health);
         }
-
-        if (Health == 0)
+        else
         {
-            ParticleSystemsController.Instance.TankExplosion();
-            Destroy(gameObject,2f);
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+
+           coroutine = StartCoroutine(EnemyDeath(point));
         }
     }
-
+    IEnumerator EnemyDeath(Vector3 point)
+    {
+        ParticleSystemsController.Instance.TankExplosion(point);
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
+    }
 }
