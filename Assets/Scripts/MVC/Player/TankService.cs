@@ -6,49 +6,53 @@ using UnityEngine.UI;
 
 public class TankService : MonoSingletonGeneric<TankService>
 {
-    private TankController tankController;
 
     [SerializeField]
-    private GameObject PlayerTank;
+    private GameObject TankPrefab;
     [SerializeField]
-    private Transform FireTransform;
+    private List<Vector3> spawnPoints = new List<Vector3>();
     [SerializeField]
-    private BoxCollider BoxCollider;
+    private TankScriptableObjectList tanks;
     [SerializeField]
-    private Button FireButton;
- 
+    private Button SpawnEnemyButton;
+    private EnemyController enemyController;
 
+    [HideInInspector]
+    public PlayerController playerController;
+
+    public Button FireButton;
     public FixedJoystick joystick;
 
     private void Start()
     {
-        tankController = SpawnPlayerTank();
-        Button Firebutton = FireButton.GetComponent<Button>();
-        Firebutton.onClick.AddListener(FireBullets);
+       playerController = SpawnPlayerTank();
+       Button EnemySpawn = SpawnEnemyButton.GetComponent<Button>();
+       EnemySpawn.onClick.AddListener(GenerateRandomEnemySpawn);
     }
 
-    private void FireBullets()
+    private void GenerateRandomEnemySpawn()
     {
-        BulletService.Instance.FireBullet(FireTransform);
+        int random = UnityEngine.Random.Range(0, tanks.EnemyTankList.Length);
+        int randomspawnpoint = UnityEngine.Random.Range(0, spawnPoints.Count);
+        enemyController = SpawnEnemyTank(TankPrefab, random, randomspawnpoint);
     }
 
-    public void DamageEnemy(Vector3 point)
+    public PlayerController SpawnPlayerTank()
     {
-        EnemyService.Instance.TakeDamage(tankController.GetDamage,point);
-    }
-    public void KillPlayerTank(Vector3 point)
-    {
-        tankController.DestroyPlayerTank(point);
-    }
-
-    public TankController SpawnPlayerTank()
-    {
-        GameObject Tank = Instantiate(PlayerTank);
-        FireTransform.transform.parent = Tank.transform;
-        BoxCollider.transform.parent = Tank.transform;
-        TankController tankController = Tank.AddComponent<TankController>();
-        Tank.AddComponent<Rigidbody>();
+        GameObject playerTank = Instantiate(TankPrefab);
+        PlayerController tankController = playerTank.AddComponent<PlayerController>();
         return tankController;
     }
+
+    public EnemyController SpawnEnemyTank(GameObject EnemyTankPrefab, int index, int randompoint)
+    {
+        Debug.Log("Enemy Spawned");
+        GameObject enemyTank = Instantiate(EnemyTankPrefab, spawnPoints[randompoint], Quaternion.identity);
+        enemyTank.AddComponent<EnemyController>().SetEnemyCharacteristics(tanks.EnemyTankList[index]);
+        EnemyController enemyController = enemyTank.GetComponent<EnemyController>();
+        return enemyController;
+    }
+
+   
 }
 

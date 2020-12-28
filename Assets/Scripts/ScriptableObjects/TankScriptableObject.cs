@@ -9,7 +9,6 @@ public class TankScriptableObject : ScriptableObject{
     public int  speed;
     public int rotation;
     public int health;
-    public int damage;
     public Color TankColor;
 }
 

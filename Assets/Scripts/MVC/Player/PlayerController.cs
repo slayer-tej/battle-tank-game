@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Effects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TankController : MonoBehaviour
+public class PlayerController : MonoBehaviour , IDamageable
 {   
     private FixedJoystick Joystick;
     [SerializeField]
@@ -12,22 +12,29 @@ public class TankController : MonoBehaviour
     [SerializeField]
     private float rotate = 200;
     [SerializeField]
-    private int health = 100;
-    [SerializeField]
-    private int damage = 10;
-    private EnemyController enemyController;
+    private int Health = 100;
+  
 
-
+    private Button FireButton;
+    private Transform FireFrom;
+    private Coroutine coroutine;
 
     private void Start()
     {
         Joystick = TankService.Instance.joystick.GetComponent<FixedJoystick>();
+        FireButton = TankService.Instance.FireButton.GetComponent<Button>();
+        FireButton.onClick.AddListener(FireBullets);
     }
 
     private void Update()
     {
         TankMovement();
         TankRotate();
+    }
+
+    private void FireBullets()
+    {
+        BulletService.Instance.FireBullet(FireFrom);
     }
 
     private void TankMovement()
@@ -48,24 +55,26 @@ public class TankController : MonoBehaviour
         }
     }
 
-    public void DestroyPlayerTank(Vector3 point)
+
+    public void TakeDamage(int Dmg)
     {
-        StartCoroutine(DestroyTank(point));
-    }
-    IEnumerator DestroyTank(Vector3 point)
-    {
-        ParticleSystemsController.Instance.TankExplosion(point);
-        yield return new WaitForSeconds(5f);
-        Destroy(gameObject);
+        Health -= Dmg;
+        if (Health <= 0)
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+            coroutine = StartCoroutine(DestroyTank());
+        }
     }
 
-    public int GetDamage
+    IEnumerator DestroyTank()
     {
-        get { return damage;}
-    }
-    public int GetHealth
-    {
-        get { return health;}
+        VFXController vfx = VFXService.Instance.SetEffect(ParticleEffect.TankExplosion);
+        vfx.PlayEffect(this.transform.position);
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
     }
 }
 
