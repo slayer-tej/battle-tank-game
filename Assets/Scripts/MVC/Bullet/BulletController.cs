@@ -1,32 +1,35 @@
-﻿using System;
+﻿using Effects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField]
-    private float BulletSpeed=800;
+    private float BulletSpeed=28;
+    private int BulletDamage = 10;
+
     private void Start()
     {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * BulletSpeed);
+        rb.velocity = transform.forward * BulletSpeed;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        if (collision.gameObject.GetComponent<BoxCollider>() != null || collision.gameObject.GetComponent<MeshCollider>() != null)
+        VFXController vfx;
+        IDamageable damageableObject = other.gameObject.GetComponent<IDamageable>();
+        if(other.gameObject.GetComponent<IDamageable>() != null)
         {
-            foreach (ContactPoint contact in collision.contacts)
-            {
-                ParticleSystemsController.Instance.WallCollision(contact.point);
-            }
-            Destroy(gameObject);
+            vfx = VFXService.Instance.SetEffect(ParticleEffect.ShellExplosionOnTank);
+            vfx.PlayEffect(transform.position);
+            damageableObject.TakeDamage(BulletDamage);
+            Destroy(this.gameObject);
         }
-        if(collision.gameObject.GetComponent<EnemyController>() != null)
-        {      
-            BulletService.Instance.DamageEnemyTank();
-            Destroy(gameObject);
+        else
+        {
+            vfx = VFXService.Instance.SetEffect(ParticleEffect.ShellExplosionOnGround);
+            vfx.PlayEffect(transform.position);
+            Destroy(this.gameObject);
         }
     }
 }
