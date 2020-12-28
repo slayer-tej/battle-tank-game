@@ -23,6 +23,7 @@ public class BulletController : MonoBehaviour
             vfx = VFXService.Instance.SetEffect(ParticleEffect.ShellExplosionOnTank);
             vfx.PlayEffect(transform.position);
             damageableObject.TakeDamage(BulletDamage);
+            Destroy(this.gameObject);
         }
         else
         {
