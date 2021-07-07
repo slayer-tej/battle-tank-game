@@ -15,18 +15,30 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<BoxCollider>() != null || collision.gameObject.GetComponent<MeshCollider>() != null)
+        if (collision.gameObject.GetComponent<BoxCollider>() != null)
         {
             foreach (ContactPoint contact in collision.contacts)
             {
-                ParticleSystemsController.Instance.WallCollision(contact.point);
+                ParticleSystemsController.Instance.ShellExlposionOnMetal(contact.point);
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
-        if(collision.gameObject.GetComponent<EnemyController>() != null)
-        {      
-            BulletService.Instance.DamageEnemyTank();
-            Destroy(gameObject);
+        if (collision.gameObject.GetComponent<MeshCollider>() != null)
+        {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                ParticleSystemsController.Instance.ShellExlposionOnSand(contact.point);
+                Destroy(gameObject);
+            }
+        }
+            if (collision.gameObject.GetComponent<EnemyController>() != null)
+        {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                ParticleSystemsController.Instance.ShellExlposionOnMetal(contact.point);
+                BulletService.Instance.DamageEnemyTank(contact.point);
+                Destroy(gameObject);
+            }
         }
     }
 }

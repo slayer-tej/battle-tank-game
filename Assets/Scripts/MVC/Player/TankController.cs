@@ -7,10 +7,16 @@ using UnityEngine.UI;
 public class TankController : MonoBehaviour
 {   
     private FixedJoystick Joystick;
+    [SerializeField]
     private float speed = 15;
+    [SerializeField]
     private float rotate = 200;
+    [SerializeField]
     private int health = 100;
+    [SerializeField]
     private int damage = 10;
+    private EnemyController enemyController;
+
 
 
     private void Start()
@@ -27,24 +33,29 @@ public class TankController : MonoBehaviour
     private void TankMovement()
     {
         float vertical = Joystick.Vertical;
-        float horizontal = Joystick.Horizontal;
-
-
         if (vertical > .3f || vertical < -.3f)
         {
             transform.position = transform.position + transform.forward * speed * vertical * Time.deltaTime;
         }
     }
-     
+
     private void TankRotate()
     {
         float horizontal = Joystick.Horizontal;
-        if(horizontal > .3f || horizontal < -.3f)
-        transform.Rotate(Vector3.up * rotate * Time.deltaTime * horizontal);
+        if (horizontal > .3f || horizontal < -.3f)
+        {
+            transform.Rotate(Vector3.up * rotate * Time.deltaTime * horizontal);
+        }
     }
 
-    public void DestroyPlayerTank()
+    public void DestroyPlayerTank(Vector3 point)
     {
+        StartCoroutine(DestroyTank(point));
+    }
+    IEnumerator DestroyTank(Vector3 point)
+    {
+        ParticleSystemsController.Instance.TankExplosion(point);
+        yield return new WaitForSeconds(5f);
         Destroy(gameObject);
     }
 
